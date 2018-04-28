@@ -15,12 +15,6 @@ resource "aws_s3_bucket" "s3_website" {
 
 }
 
-data "archive_file" "website_zip" {
-  type        = "zip"
-  source_dir  = "${var.document_root}"
-  output_path = "${path.module}/output/${aws_s3_bucket.s3_website.bucket}.zip"
-}
-
 resource "aws_s3_bucket_object" "website" {
   bucket = "${aws_s3_bucket.s3_website.bucket}"
   key    = "website.zip"
