@@ -2,7 +2,7 @@
 ## Introduction
 Terraform module to set up:
  - Static website on AWS S3
- - Publish website via AWS Cloudfront for decreased latency, full page caching, IPv6 support, Ddos protection
+ - Publish website via AWS Cloudfront for https support, decreased latency, full page caching, IPv6 support, Ddos protection
  - Create AWS Route53 record for website (optional)
  - Deploy website content - upload your document root to S3 bucket. 
 
@@ -20,9 +20,13 @@ Create file index.tf with your configuration:
 
 provider "aws" {
   version = "~> 1.12"
-  region = "eu-west-1"
+  // Region "us-east-1" will establish Cloudfront <==> S3 integration faster
+  region = "us-east-1"
   access_key = "XXXXXX"
   secret_key = "XXXXXXXXXXX"
+}
+provider "archive" {
+  version = "~> 1.0"
 }
 
 module "static_website_autosync_terraform" {
