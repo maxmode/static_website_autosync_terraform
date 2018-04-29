@@ -26,6 +26,9 @@ def lambda_handler(event, context):
             with zipfile.ZipFile(tf, mode='r') as zipf:
                 for file in zipf.infolist():
                     fileName = file.filename
+                    print(fileName)
+                    print(mimetypes.guess_type(fileName))
+                    print(mime.from_buffer(zipf.read(file)))
                     contentType = mimetypes.guess_type(fileName)[0]
                     if contentType == 'None':
                         contentType = mime.from_buffer(zipf.read(file))
