@@ -47,6 +47,15 @@ module "static_website_autosync_terraform" {
   document_root = "../../../websites/XXX" // Relative path from this file
 }
 
+resource "aws_s3_bucket_notification" "new_zip_notification" {
+  bucket = "${module.static_website_autosync_terraform.bucket}"
+
+  lambda_function {
+    lambda_function_arn = "${module.static_website_autosync_terraform.bucket_deploy_function}"
+    events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = "${module.static_website_autosync_terraform.bucket_deploy_filename}"
+  }
+}
 
 ```
 
