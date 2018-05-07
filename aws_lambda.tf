@@ -5,7 +5,7 @@ resource "aws_lambda_function" "static_website_deploy" {
   filename         = "${data.archive_file.static_website_deploy_zip.output_path}"
   source_code_hash = "${data.archive_file.static_website_deploy_zip.output_base64sha256}"
   runtime          = "python3.6"
-  timeout          = "10"
+  timeout          = "300"
 }
 
 resource "aws_lambda_permission" "allow_bucket" {

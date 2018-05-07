@@ -27,10 +27,8 @@ def lambda_handler(event, context):
                 for file in zipf.infolist():
                     fileName = file.filename
                     contentType = mimetypes.guess_type(fileName)[0]
-                    print('File:' + fileName + ' MimeType:' + contentType)
                     if contentType is None:
                         contentType = mime.from_buffer(zipf.read(file))
-                        print('File:' + fileName + ' MimeType(corrected by magic):' + contentType)
                     putFile = s3.put_object(Bucket=bucket, Key=fileName, Body=zipf.read(file), ContentType=contentType)
                     putObjects.append(putFile)
                     print(putFile)
