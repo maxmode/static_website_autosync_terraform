@@ -3,7 +3,7 @@ data "archive_file" "static_website_deploy_zip" {
   output_path = "${path.module}/lambda/static_website_deploy_${replace(var.domain, ".", "_")}_tf.zip"
 
   source {
-    content  = "${replace(file("${path.module}/lambda/unzip.py"),"my-bucket","${aws_s3_bucket.s3_website.bucket}")}"
+    content  = "${replace(replace(replace(file("${path.module}/lambda/unzip.py"),"my-bucket","${aws_s3_bucket.s3_website.bucket}"),"cache_control_default","${var.cache_control_default}"),"cache_control_text_html","${var.cache_control_text_html}")}"
     filename = "unzip.py"
   }
 

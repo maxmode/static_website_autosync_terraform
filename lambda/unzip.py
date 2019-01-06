@@ -29,7 +29,10 @@ def lambda_handler(event, context):
                     contentType = mimetypes.guess_type(fileName)[0]
                     if contentType is None:
                         contentType = mime.from_buffer(zipf.read(file))
-                    putFile = s3.put_object(Bucket=bucket, Key=fileName, Body=zipf.read(file), ContentType=contentType)
+                    cacheControl = 'cache_control_default'
+                    if contentType == 'text/html':
+                        cacheControl = 'cache_control_text_html'
+                    putFile = s3.put_object(Bucket=bucket, Key=fileName, Body=zipf.read(file), ContentType=contentType, CacheControl=cacheControl)
                     putObjects.append(putFile)
                     print(putFile)
 

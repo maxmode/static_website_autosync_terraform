@@ -36,7 +36,9 @@ module "static_website_autosync_terraform" {
   // Changes in these parameters will take 5..30min due to required update of Cloudfront distribution.
   domain = "example.com" // Website domain name. Both subdomains and apex domains supported.
   certificate_arn = "arn:aws:acm:us-east-1:???"
-  cache_ttl = "60" // In seconds. For how long to cache content in Cloudfront.
+  cache_ttl = "0" // In seconds. For how long to cache content in Cloudfront.
+  cache_control_default = "public, max-age=2592000" // Cache control header for default files
+  cache_control_text_html = "public, s-maxage=900" // Cache control header for text/html files
 
   // AWS Route53 Alias record.
   enabled = "0" // 1 - Create record; 0 - do not create/remove record. Can be used to enable/disable website.

@@ -4,6 +4,12 @@ variable "document_root" {}
 variable "enabled" {}
 variable "route53_zone_id" {}
 variable "cache_ttl" {}
+variable "cache_control_default" {
+  default = "public, max-age=2592000"
+}
+variable "cache_control_text_html" {
+  default = "public, s-maxage=900"
+}
 output "bucket" {
   value = "${aws_s3_bucket.s3_website.bucket}"
 }
