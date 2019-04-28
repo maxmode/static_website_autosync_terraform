@@ -60,4 +60,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     bucket = "${aws_s3_bucket.s3_website_logging.bucket}.s3.amazonaws.com"
     prefix = "cf-${var.domain}/"
   }
+
+  custom_error_response {
+    error_code = 403
+    response_code = 404
+    error_caching_min_ttl = 300
+    response_page_path = "/error.html"
+  }
 }
