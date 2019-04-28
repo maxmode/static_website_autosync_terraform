@@ -36,6 +36,12 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     max_ttl                = "${var.cache_ttl}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
+
+    lambda_function_association {
+      event_type   = "viewer-request"
+      lambda_arn   = "${aws_lambda_function.lambda_index_files.qualified_arn}"
+      include_body = false
+    }
   }
 
   price_class = "PriceClass_200"

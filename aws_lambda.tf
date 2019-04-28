@@ -15,3 +15,22 @@ resource "aws_lambda_permission" "allow_bucket" {
   principal     = "s3.amazonaws.com"
   source_arn    = "${aws_s3_bucket.s3_website.arn}"
 }
+
+resource "aws_lambda_function" "lambda_index_files" {
+  function_name    = "lambda_index_files_${replace(var.domain, ".", "_")}_tf"
+  provider         = "aws.edge"
+  role             = "${aws_iam_role.lambda_index_files.arn}"
+  handler          = "index.handler"
+  filename         = "${data.archive_file.lambda_index_files.output_path}"
+  source_code_hash = "${data.archive_file.lambda_index_files.output_base64sha256}"
+  runtime          = "nodejs8.10"
+  timeout          = "5"
+}
+
+resource "aws_lambda_permission" "allow_cloudfront" {
+  statement_id   = "AllowExecutionFromCloudFront"
+  provider       = "aws.edge"
+  action         = "lambda:GetFunction"
+  function_name  = "${aws_lambda_function.lambda_index_files.function_name}"
+  principal      = "edgelambda.amazonaws.com"
+}
