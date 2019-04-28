@@ -15,9 +15,19 @@ resource "aws_s3_bucket" "s3_website" {
 
 }
 
+resource "aws_s3_bucket" "s3_website_logging" {
+  bucket = "logs-${replace(var.domain,".","-")}-tf"
+  acl    = "log-delivery-write"
+
+  tags {
+    Name = "Logs for ${var.domain}"
+  }
+}
+
 resource "aws_s3_bucket_object" "website" {
+  count = "${var.update_content}"
   bucket = "${aws_s3_bucket.s3_website.bucket}"
-  key    = "website.zip"
+  key    = "${var.website_archive}"
   source = "${data.archive_file.website_zip.output_path}"
   etag   = "${data.archive_file.website_zip.output_md5}"
 }

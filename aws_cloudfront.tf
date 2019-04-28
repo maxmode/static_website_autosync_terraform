@@ -55,4 +55,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     acm_certificate_arn = "${var.certificate_arn}"
     ssl_support_method = "sni-only"
   }
+
+  logging_config {
+    bucket = "${aws_s3_bucket.s3_website_logging.bucket}.s3.amazonaws.com"
+    prefix = "cf-${var.domain}/"
+  }
 }
