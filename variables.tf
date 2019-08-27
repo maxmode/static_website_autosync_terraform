@@ -4,6 +4,13 @@ variable "document_root" {}
 variable "update_content" {
   default = 1
 }
+variable "cf_forwarded_headers" {
+  default = []
+  type = "list"
+}
+variable "cf_404_page" {
+  default = "/error.html"
+}
 variable "enabled" {}
 variable "route53_zone_id" {}
 variable "cache_ttl" {}
