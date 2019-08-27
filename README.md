@@ -47,6 +47,12 @@ module "static_website_autosync_terraform" {
   // All files form this folder will be uploaded to your static websites.
   // Updates in files will be also synchonized.
   document_root = "../../../websites/XXX" // Relative path from this file
+  
+  //To enable forwarding a Country header. Optional variable.
+  cf_forwarded_headers = ["CloudFront-Viewer-Country"]
+  
+  //Path to 404 page in case S3 bucket returns 403. Optional varible.
+  cf_404_page = "/error/index.html"
 }
 
 resource "aws_s3_bucket_notification" "new_zip_notification" {

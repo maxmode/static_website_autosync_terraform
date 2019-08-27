@@ -25,6 +25,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     target_origin_id = "myS3Origin"
 
     forwarded_values {
+      headers = "${var.cf_forwarded_headers}"
       query_string = false
       cookies {
         forward = "none"
@@ -65,6 +66,6 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     error_code = 403
     response_code = 404
     error_caching_min_ttl = 300
-    response_page_path = "/error.html"
+    response_page_path = "${var.cf_404_page}"
   }
 }
