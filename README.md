@@ -32,6 +32,11 @@ provider "archive" {
 module "static_website_autosync_terraform" {
   source       = "github.com/maxmode/static_website_autosync_terraform"
 
+  providers = {
+      aws = "aws",     // AWS provider for any region
+      aws.edge = "aws" // AWS provider for us-east-1 region
+    }
+
   // Website configuration.
   // Changes in these parameters will take 5..30min due to required update of Cloudfront distribution.
   domain = "example.com" // Website domain name. Both subdomains and apex domains supported.
